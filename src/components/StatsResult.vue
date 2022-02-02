@@ -3,9 +3,9 @@
     <div
       class="bg-white rounded-full w-72 h-72 text-4xl flex items-center justify-center"
     >
-      <span>1.00</span>
+      <span>{{ result[mathTitle] || 0 }}</span>
     </div>
-    <div class="math-title">
+    <div class="math-title uppercase">
       {{ mathTitle }}
     </div>
   </div>
@@ -15,16 +15,13 @@
 export default {
   props: {
     result: {
-      type: Number,
+      type: [Number, Object],
       default: 0,
     },
     mathTitle: {
       type: String,
       default: "",
     },
-  },
-  setup() {
-    return {};
   },
 };
 </script>

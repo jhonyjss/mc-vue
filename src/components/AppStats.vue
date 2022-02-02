@@ -2,7 +2,7 @@
   <div class="h-96 bg-blue-900">
     <Container class="mx-auto flex h-full">
       <div v-for="math in maths" :key="math" class="flex items-center w-1/4">
-        <stats-result :math-title="math"></stats-result>
+        <stats-result :math-title="math" :result="result"></stats-result>
       </div>
     </Container>
   </div>
@@ -42,27 +42,30 @@
 import StatsResult from "./StatsResult.vue";
 import UploadIcon from "vue-material-design-icons/Upload.vue";
 import useUpload from "../composables/upload";
+import useMath from "../composables/maths";
 import { ref } from "vue";
 
 export default {
   components: { StatsResult, UploadIcon },
   data() {
     return {
-      maths: ["MEAN", "MEDIAN", "STD DEVIATION", "MODE"],
+      maths: ["mean", "median", "std deviation", "mode"],
     };
   },
   setup() {
     let files = ref("");
-    let result = ref("");
+    let result = ref(0);
     const url = ref("");
 
     const submitFile = async (evt) => {
-      result = await useUpload(evt.target.files[0]).readFileAsJSON();
-      console.log("result", result);
+      const { data } = await useUpload(evt.target.files[0]).readFileAsJSON();
+      result.value = useMath(data).results.value;
+      console.log(result);
     };
 
-    const submitUrl = () => {
-      useUpload(url).fetchUrl();
+    const submitUrl = async () => {
+      const { data } = await useUpload(url).fetchUrl();
+      result.value = useMath(data).results.value;
     };
 
     return {
