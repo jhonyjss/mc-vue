@@ -1,13 +1,13 @@
 <template>
-  <div class="relative">
+  <div class="relative w-fit">
     <div
       class="bg-white rounded-full w-72 h-72 text-4xl flex items-center justify-center"
     >
       <span>{{ result[mathTitle] || 0 }}</span>
     </div>
-    <div class="math-title uppercase">
+    <span class="math-title uppercase">
       {{ mathTitle }}
-    </div>
+    </span>
   </div>
 </template>
 
@@ -28,7 +28,14 @@ export default {
 
 <style lang="postcss" scoped>
 .math-title {
-  @apply absolute text-white text-center w-full h-10 lg:text-lg;
-  bottom: -3rem;
+  @apply text-white text-center w-full  lg:text-lg my-4 block;
+}
+
+@screen lg {
+  .math-title {
+    @apply absolute text-white text-center w-full h-10 lg:text-lg my-0;
+    left: 0rem;
+    bottom: -3rem !important;
+  }
 }
 </style>

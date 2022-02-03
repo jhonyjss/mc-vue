@@ -2,6 +2,7 @@ import { ref } from "vue";
 
 export default function useUpload(urlorFile) {
   const param = ref(urlorFile);
+
   const typeOfData = typeof param.value;
 
   if (typeOfData === "string" && !param.value.endsWith(".json")) {
@@ -32,7 +33,8 @@ export default function useUpload(urlorFile) {
   };
 
   const readFileAsJSON = () => {
-    return fetch(param.value.name, {
+    const baseUrl = import.meta.env.VITE_BASE_URL ?? "";
+    return fetch(`${baseUrl}${param.value.name}`, {
       // Your POST endpoint
       method: "POST",
       headers: {
@@ -52,15 +54,6 @@ export default function useUpload(urlorFile) {
         (error) => console.log(error) // Handle the error response object
       );
   };
-
-  /* const lbs = computed(() =>
-    weightType.value === "LBS" ? weight.value : weight.value * 2.20462262185
-  );
-  const kg = computed(() =>
-    weightType.value === "KG" ? weight.value : lbs.value * 0.45359237
-  );
-  const mt = computed(() => kg.value * 0.001);
-  const st = computed(() => lbs.value / 2000); */
 
   return {
     readFileAsJSON,
